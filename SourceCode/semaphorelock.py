@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import threading
 
 class SemaphporeCrawlers:
@@ -36,8 +35,3 @@ class SemaphporeCrawlers:
         return (url)
 
  
-=======
-class SemaphporeCrawlers:
-    def semaphore_frontier():
-        print("SemaphoreLock")
->>>>>>> bb66df4aee7981379f5f73f3a349e0357f130616
