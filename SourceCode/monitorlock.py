@@ -13,7 +13,7 @@ class MonitorCrawlers():
         self.condition_obj.acquire()
         if (self.count == self.size) :
             self.condition_obj.wait(2)          # if the frontier is full, go to sleep        
-        self.frontier[self.hi] = url     # insert an URL into the frontier
+        self.frontier[self.hi] = url            # insert an URL into the frontier
         self.hi = (self.hi + 1) % self.size     # slot to place next URL in
         self.count += 1                 
         # one more URL in the frontier now
@@ -24,8 +24,8 @@ class MonitorCrawlers():
     def remove(self):
         self.condition_obj.acquire()
         if (self.count == 0) :
-            self.condition_obj.wait(2) # if the frontier is empty, go to sleep
-        url = self.frontier[self.lo] # fetch a url from the frontier
+            self.condition_obj.wait(2)  # if the frontier is empty, go to sleep
+        url = self.frontier[self.lo]    # fetch a url from the frontier
         self.frontier[self.lo] = None
         self.lo = (self.lo + 1) % self.size # slot to fetch next url from
         self.count -= 1
@@ -37,3 +37,4 @@ class MonitorCrawlers():
         
     def release_locks(self):
         self.condition_obj.release()
+

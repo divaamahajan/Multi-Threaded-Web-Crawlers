@@ -12,7 +12,7 @@ def current_date_str():
     return datetime.now().strftime("%Y-%d-%m")
     
 def current_time_str():
-    return datetime.now().strftime("%H-%M-%S")
+    return datetime.now().strftime("%I.%M.%S%p")
 
 def lock_option_str(op):
     if op.semaphorelock:

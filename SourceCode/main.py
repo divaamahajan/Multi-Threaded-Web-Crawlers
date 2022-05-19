@@ -7,7 +7,7 @@ import os
 
 try:
     LOG_FILENAME = "data_logs.csv"
-
+    
     URL_file = file_parser.get_file_path('TestFiles','TestURL.txt')
     print('Testing data file: \n',URL_file)
     raw_URL_list = file_parser.parse_url_file(URL_file)
