@@ -63,7 +63,7 @@ try:
         spider.write_output(LOG_FILENAME) 
 
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1))
-    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2))
+    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type))
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3))
     textprint.plot_overlay_graph(filename=LOG_FILENAME)
     os._exit(5)

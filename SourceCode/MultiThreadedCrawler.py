@@ -131,11 +131,19 @@ class MultiThreadedCrawler:
 
     def run_web_crawler(self):
         thread_list = []
+        current_time = time.time()
         with ThreadPoolExecutor(
             max_workers=self.number_of_threads, thread_name_prefix="CrawlerThread"
         ) as pool_of_crawler_threads:
             while True:
                 try:
+                    if current_time - self.start_time >= MAX_RUNNING_TIME_SECONDS:
+                        print(
+                            "Time out: {} to {}".format(self.start_time, current_time)
+                        )        
+                        atexit.unregister(thread._python_exit)
+                        pool_of_crawler_threads.shutdown = lambda wait: 20
+                        break
                     target_url = self.get_urls_from_frontier()
                     if target_url == None:
                         continue
@@ -154,13 +162,7 @@ class MultiThreadedCrawler:
                         # as corresponding thread job has settled call parser filter
                         crawler_thread_job.add_done_callback(self.parser_filter)
                     current_time = time.time()
-                    if current_time - self.start_time >= MAX_RUNNING_TIME_SECONDS:
-                        print(
-                            "Time out: {} to {}".format(self.start_time, current_time)
-                        )        
-                        atexit.unregister(thread._python_exit)
-                        pool_of_crawler_threads.shutdown = lambda wait: 20
-                        break
+                    
                 except Exception as e:
                     print("Reason:")
                     print(e)
