@@ -95,10 +95,6 @@ def read_logs(filename, lock_name):
             thread_idx = i
         elif header[i] == "No. of Links Visited":
             links_idx = i
-        elif header[i] == "Success status(200)":
-            links_status = i
-    if links_status:
-        logs.sort(key=lambda row: (row[links_status]), reverse=True)
 
     #read logs of current lock
     thread_links_dict = dict()
@@ -110,8 +106,7 @@ def read_logs(filename, lock_name):
             if count_threads not in thread_links_dict:
                 thread_links_dict[count_threads] = list()
             temp = thread_links_dict[count_threads]
-            if len(temp) < 5:
-                temp.append(count_links)
+            temp.append(count_links)
     for thread_count in sorted(thread_links_dict):        
         x_num_threads.append(thread_count)
         y_num_links.append(int(statistics.mean(thread_links_dict[thread_count])))
