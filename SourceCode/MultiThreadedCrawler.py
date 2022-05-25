@@ -2,6 +2,8 @@ from sre_constants import SUCCESS
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, thread, TimeoutError
 import atexit
+
+from numpy import append
 from monitorlock import MonitorCrawlers
 from semaphorelock import SemaphporeCrawlers
 from urllib.parse import urljoin, urlparse
@@ -34,8 +36,7 @@ class MultiThreadedCrawler:
         self.frontier_queue = [None] * FRONTIER_SIZE
         self.idx_put = self.idx_pop = int(0)
         self._mutex_lock = threading.Semaphore(1)
-        self.url_success_status = list()
-        self.url_fail_status = list()
+        self.repeated = list()
         self.lock_sem = SemaphporeCrawlers(FRONTIER_SIZE)
         self.lock_mon = MonitorCrawlers(FRONTIER_SIZE)
         self.store_metadata = False
@@ -105,10 +106,6 @@ class MultiThreadedCrawler:
         try:
             api_response = thread_job_obj.result()
             if api_response: # and api_response.status_code == 200:
-                if  200 <= api_response.status_code < 300: 
-                    self.url_success_status.append('ok')
-                else:
-                    self.url_fail_status.append('no')
                 self.parse_links(api_response.text)
                 # if self.store_metadata:
                 #     self.metadata(api_response.text, api_response.url)
@@ -121,9 +118,6 @@ class MultiThreadedCrawler:
         Once the request is successful return the result set."""
         try:
             response = requests.get(url, timeout=(3, 30))
-            # self._mutex_lock.acquire()
-            # MAX_RUNNING_TIME_SECONDS += response.elapsed.total_seconds()
-            # self._mutex_lock.release()
             print(f"\n{threading.current_thread().getName()} executing...")   
             return response
         except requests.RequestException:
@@ -161,6 +155,8 @@ class MultiThreadedCrawler:
                         thread_list.append(crawler_thread_job)
                         # as corresponding thread job has settled call parser filter
                         crawler_thread_job.add_done_callback(self.parser_filter)
+                    else:
+                        self.repeated.append(target_url)
                     current_time = time.time()
                     
                 except Exception as e:
@@ -207,7 +203,6 @@ class MultiThreadedCrawler:
             txt.lock_option_str(self) , 
             self.number_of_threads, 
             len(self.visited_links),            
-            len(self.url_success_status),
-            f'{(int(len(self.url_success_status)) / int(len(self.visited_links))) * 100}%' ,
+            len(self.repeated)
             ]
 

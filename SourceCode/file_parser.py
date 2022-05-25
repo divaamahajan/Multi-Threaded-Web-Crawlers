@@ -114,12 +114,7 @@ def read_logs(filename, lock_name):
                 temp.append(count_links)
     for thread_count in sorted(thread_links_dict):        
         x_num_threads.append(thread_count)
-        # x = thread_links_dict[thread_count]
-        # x.sort(reverse = True)
-        # x = x[:5]
         y_num_links.append(int(statistics.mean(thread_links_dict[thread_count])))
-        # y_num_links.append(int(statistics.mean(x)))
-        # print(x)
 
 
     return x_num_threads, y_num_links
