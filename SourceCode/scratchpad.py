@@ -1,5 +1,5 @@
-from datetime import datetime
-x = datetime.now().strftime("%Y-%d-%m")
-print(x)
-x = datetime.now().strftime("%I.%M.%S%p")
-print(x)
+import requests
+url = 'https://jsonplaceholder.typicode.com/todos/1' 
+response = requests.get(url)        # To execute get request 
+print(response.status_code)     # To print http response code  
+# print(response.text)            # To print formatted JSON response 

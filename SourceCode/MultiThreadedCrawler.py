@@ -1,3 +1,4 @@
+from sre_constants import SUCCESS
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, thread, TimeoutError
 import atexit
@@ -10,10 +11,11 @@ import threading
 import time
 import textprint as txt
 
-
+SUCCESS_RESPONSE_STATUS = 200
+FRONTIER_SIZE = 10
+MAX_RUNNING_TIME_SECONDS = 3
 class MultiThreadedCrawler:
-    FRONTIER_SIZE = 10
-    MAX_RUNNING_TIME_SECONDS = 3
+    
 
     def __init__(self, seed_url, num_threads, locking_option, metadata_store):
         self.seed_url = seed_url
@@ -29,10 +31,13 @@ class MultiThreadedCrawler:
         )  # List to maintain the history of visited links to avoid duplicate visits
         self.visited_links.add("ROOT")
         # self.frontier_queue = Queue()
-        self.frontier_queue = [None] * self.FRONTIER_SIZE
+        self.frontier_queue = [None] * FRONTIER_SIZE
         self.idx_put = self.idx_pop = int(0)
-        self.lock_sem = SemaphporeCrawlers(self.FRONTIER_SIZE)
-        self.lock_mon = MonitorCrawlers(self.FRONTIER_SIZE)
+        self._mutex_lock = threading.Semaphore(1)
+        self.url_success_status = list()
+        self.url_fail_status = list()
+        self.lock_sem = SemaphporeCrawlers(FRONTIER_SIZE)
+        self.lock_mon = MonitorCrawlers(FRONTIER_SIZE)
         self.store_metadata = False
         self.lockfree = False
         self.semaphorelock = False
@@ -72,7 +77,7 @@ class MultiThreadedCrawler:
             if self.lockfree:
                 # self.frontier_queue.put(url,timeout=60)
                 self.frontier_queue[self.idx_put] = url
-                self.idx_put = (self.idx_put + 1) % self.FRONTIER_SIZE
+                self.idx_put = (self.idx_put + 1) % FRONTIER_SIZE
             elif self.semaphorelock:
                 self.lock_sem.insert(url)
             elif self.monitorlock:
@@ -87,7 +92,7 @@ class MultiThreadedCrawler:
                 # self.frontier_queue.put(url,timeout=60)
                 url = self.frontier_queue[self.idx_pop]
                 self.frontier_queue[self.idx_pop] = None
-                self.idx_pop = (self.idx_pop + 1) % self.FRONTIER_SIZE
+                self.idx_pop = (self.idx_pop + 1) % FRONTIER_SIZE
             elif self.semaphorelock:
                 url = self.lock_sem.remove()
             elif self.monitorlock:
@@ -99,7 +104,11 @@ class MultiThreadedCrawler:
     def parser_filter(self, thread_job_obj):
         try:
             api_response = thread_job_obj.result()
-            if api_response and api_response.status_code == 200:
+            if api_response: # and api_response.status_code == 200:
+                if  200 <= api_response.status_code < 300: 
+                    self.url_success_status.append('ok')
+                else:
+                    self.url_fail_status.append('no')
                 self.parse_links(api_response.text)
                 # if self.store_metadata:
                 #     self.metadata(api_response.text, api_response.url)
@@ -111,10 +120,12 @@ class MultiThreadedCrawler:
         place the request and set default time as 3 and maximum time as 30
         Once the request is successful return the result set."""
         try:
-            resulturl = requests.get(url, timeout=(3, 30))
-            print(f"\n{threading.current_thread().getName()} executing...")
-            # print(self.frontier_queue)
-            return resulturl
+            response = requests.get(url, timeout=(3, 30))
+            # self._mutex_lock.acquire()
+            # MAX_RUNNING_TIME_SECONDS += response.elapsed.total_seconds()
+            # self._mutex_lock.release()
+            print(f"\n{threading.current_thread().getName()} executing...")   
+            return response
         except requests.RequestException:
             return
 
@@ -143,7 +154,7 @@ class MultiThreadedCrawler:
                         # as corresponding thread job has settled call parser filter
                         crawler_thread_job.add_done_callback(self.parser_filter)
                     current_time = time.time()
-                    if current_time - self.start_time >= self.MAX_RUNNING_TIME_SECONDS:
+                    if current_time - self.start_time >= MAX_RUNNING_TIME_SECONDS:
                         print(
                             "Time out: {} to {}".format(self.start_time, current_time)
                         )        
@@ -188,5 +199,13 @@ class MultiThreadedCrawler:
         return file_name, visited_list
 
     def get_log_row(self):
-        return [txt.current_date_str() , txt.current_time_str() ,  txt.lock_option_str(self) , self.number_of_threads, len(self.visited_links) ]
+        return [
+            txt.current_date_str() , 
+            txt.current_time_str() ,  
+            txt.lock_option_str(self) , 
+            self.number_of_threads, 
+            len(self.visited_links),            
+            len(self.url_success_status),
+            f'{(int(len(self.url_success_status)) / int(len(self.visited_links))) * 100}%' ,
+            ]
 

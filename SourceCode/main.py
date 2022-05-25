@@ -1,3 +1,4 @@
+import time
 import file_parser
 import validators
 import textprint
@@ -6,7 +7,7 @@ from MultiThreadedCrawler import MultiThreadedCrawler
 import os
 
 try:
-    LOG_FILENAME = "data_logs.csv"
+    LOG_FILENAME = "data_log_auto_status3.csv"
     
     URL_file = file_parser.get_file_path('TestFiles','TestURL.txt')
     print('Testing data file: \n',URL_file)
@@ -42,6 +43,18 @@ try:
     else:
         lock_type = int(lock_type)
 
+    
+    # for t in range(1, 11, 2):
+    #     number_of_threads = t
+    #     for l in range (3):
+    #         lock_type = (l%3) + 1
+    #         for url in Seed_URL_list:
+    #             spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
+    #             print(textprint.lock_option_str(spider))  
+    #             spider.run_web_crawler()
+    #             spider.write_output(LOG_FILENAME)
+    #         time.sleep(60)     
+
     while Seed_URL_list:
         url = Seed_URL_list.pop()
         spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
@@ -49,7 +62,10 @@ try:
         spider.run_web_crawler()
         spider.write_output(LOG_FILENAME) 
 
-    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_option_str(spider))
+    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1))
+    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2))
+    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3))
+    textprint.plot_overlay_graph(filename=LOG_FILENAME)
     os._exit(5)
     
 except Exception as e:

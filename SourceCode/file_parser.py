@@ -1,6 +1,7 @@
 """
 Routine for parsing input from provided URL files
 """
+from audioop import reverse
 import os
 import sys
 import csv
@@ -85,6 +86,7 @@ def read_logs(filename, lock_name):
     header, logs = read_csv( filename= filename)
     x_num_threads =[]
     y_num_links = []
+    lock_idx = thread_idx = links_idx = links_status = int()
     #get column number of Lock Option
     for i in range(len(header)):
         if header[i] == "Lock Option":
@@ -93,6 +95,10 @@ def read_logs(filename, lock_name):
             thread_idx = i
         elif header[i] == "No. of Links Visited":
             links_idx = i
+        elif header[i] == "Success status(200)":
+            links_status = i
+    if links_status:
+        logs.sort(key=lambda row: (row[links_status]), reverse=True)
 
     #read logs of current lock
     thread_links_dict = dict()
@@ -104,10 +110,16 @@ def read_logs(filename, lock_name):
             if count_threads not in thread_links_dict:
                 thread_links_dict[count_threads] = list()
             temp = thread_links_dict[count_threads]
-            temp.append(count_links)
+            if len(temp) < 5:
+                temp.append(count_links)
     for thread_count in sorted(thread_links_dict):        
         x_num_threads.append(thread_count)
+        # x = thread_links_dict[thread_count]
+        # x.sort(reverse = True)
+        # x = x[:5]
         y_num_links.append(int(statistics.mean(thread_links_dict[thread_count])))
+        # y_num_links.append(int(statistics.mean(x)))
+        # print(x)
 
 
     return x_num_threads, y_num_links
