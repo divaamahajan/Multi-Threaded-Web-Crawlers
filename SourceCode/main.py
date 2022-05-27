@@ -46,23 +46,23 @@ try:
         lock_type = int(lock_type)
 
     
-    # for t in range(1, 31):
-    #     number_of_threads = t
-    #     for l in range (1):
-    #         lock_type = 3
-    #         for url in Seed_URL_list:
-    #             spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
-    #             print(textprint.lock_option_str(spider))  
-    #             spider.run_web_crawler()
-    #             spider.write_output(LOG_FILENAME)
+    for t in range(1, 31):
+        number_of_threads = t
+        for l in range (3):
+            lock_type = 3
+            for url in Seed_URL_list:
+                spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
+                print(textprint.lock_option_str(spider))  
+                spider.run_web_crawler()
+                spider.write_output(LOG_FILENAME)
     #         time.sleep(60)     
 
-    while Seed_URL_list:
-        url = Seed_URL_list.pop()
-        spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
-        print(textprint.lock_option_str(spider))  
-        spider.run_web_crawler()
-        spider.write_output(LOG_FILENAME) 
+    # while Seed_URL_list:
+    #     url = Seed_URL_list.pop()
+    #     spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
+    #     print(textprint.lock_option_str(spider))  
+    #     spider.run_web_crawler()
+    #     spider.write_output(LOG_FILENAME) 
 
     textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type))
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1))
