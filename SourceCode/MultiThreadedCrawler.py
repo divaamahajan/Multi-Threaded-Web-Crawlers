@@ -10,11 +10,9 @@ import threading
 import time
 import textprint as txt
 
-FRONTIER_SIZE = 10
+FRONTIER_SIZE = 30
 MAX_RUNNING_TIME_SECONDS = 3
 class MultiThreadedCrawler:
-    
-
     def __init__(self, seed_url, num_threads, locking_option, metadata_store):
         self.seed_url = seed_url
         self.number_of_threads = num_threads
@@ -23,6 +21,7 @@ class MultiThreadedCrawler:
             urlparse(self.seed_url).netloc,
             urlparse(self.seed_url).path,
         )
+        self.exceptions_list = list()
         # To execute the crawl frontier task concurrently max workers as no of threads at a time
         self.visited_links = set(
             []
@@ -155,7 +154,9 @@ class MultiThreadedCrawler:
                 except Exception as e:
                     print("Reason:")
                     print(e)
-            pool_of_crawler_threads.shutdown = lambda wait: 20
+                    self.exceptions_list.append([current_time,e])
+                    return
+            pool_of_crawler_threads.shutdown = lambda wait: 2
             print("Job Finished.")
             return
 
@@ -176,6 +177,11 @@ class MultiThreadedCrawler:
         )
 
 
+    def write_exceptions(self,exception_filename):
+        file_parser.create_output_csv_file(
+            filename= exception_filename,
+            rows = self.exceptions_list
+        )
     def get_visited_link_info(self):
         file_name = "{}Threads_{}_{}links_on{}at{}.csv".format(
             self.number_of_threads,

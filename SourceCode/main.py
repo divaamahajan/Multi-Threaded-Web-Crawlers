@@ -7,6 +7,7 @@ from MultiThreadedCrawler import MultiThreadedCrawler
 import os
 
 try:
+    EXCEPTION_FILENAME = 'exceptions.csv'
     LOG_FILENAME = "data_log_monitor_frontier30.csv"
     # LOG_FILENAME = "data_log_serverhost_frontier20.csv"
     # LOG_FILENAME = "data_log_serverhost_frontier30.csv"
@@ -46,7 +47,7 @@ try:
         lock_type = int(lock_type)
 
     
-    for t in range(1, 31):
+    for t in range(1, 10):
         number_of_threads = t
         for l in range (3):
             lock_type = 3
@@ -55,6 +56,7 @@ try:
                 print(textprint.lock_option_str(spider))  
                 spider.run_web_crawler()
                 spider.write_output(LOG_FILENAME)
+                spider.write_exceptions(EXCEPTION_FILENAME)
     #         time.sleep(60)     
 
     # while Seed_URL_list:
@@ -63,12 +65,13 @@ try:
     #     print(textprint.lock_option_str(spider))  
     #     spider.run_web_crawler()
     #     spider.write_output(LOG_FILENAME) 
+    #     spider.write_exceptions(EXCEPTION_FILENAME)
 
     textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type))
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1))
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2))
     # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3))
-    textprint.plot_overlay_graph(filename=LOG_FILENAME)
+    # textprint.plot_overlay_graph(filename=LOG_FILENAME)
     os._exit(5)
     
 except Exception as e:
