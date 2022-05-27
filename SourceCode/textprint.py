@@ -34,8 +34,7 @@ def lock_type_str(lock_type):
         return "Lockfree"
 
 def plot_graph(filename, lock_name):
-    xdata , ydata = file_parser.read_logs(filename=filename, lock_name=lock_name)    
-    # plt.bar(range(len(xdata)),ydata)
+    xdata , ydata = file_parser.read_logs_file(filename=filename, lock_name=lock_name)    
     plt.plot(xdata,ydata)
     plt.title(lock_name)
     plt.ylabel('No. of Links Visited')# naming the x axis
@@ -45,15 +44,13 @@ def plot_graph(filename, lock_name):
 def plot_overlay_graph(filename):
     for lck in range(1,4):
         lock_name = lock_type_str(lck)
-        xdata , ydata = file_parser.read_logs(filename=filename, lock_name=lock_name)
+        xdata , ydata = file_parser.read_logs_file(filename=filename, lock_name=lock_name)
         # Data
         df = pd.DataFrame(
             {'Thread_'+lock_name : xdata, 
             lock_name: ydata}
             )
         plt.plot( 'Thread_'+lock_name, lock_name , data=df, marker='', color= get_colors(lck))
-    # plt.bar(range(len(xdata)),ydata)
-    # plt.plot(xdata,ydata)
     plt.title('Parallel Webcrawlers with different locks')
     plt.ylabel('No. of Links Visited')# naming the x axis
     plt.xlabel('Number of Threads')# naming the y axis

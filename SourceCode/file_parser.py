@@ -50,7 +50,7 @@ def get_file_path(folder,file):
     return(newPath)
 
 
-def create_output_csv(filename, foldername = 'Output', header=[], rows =[]):
+def create_output_csv_file(filename, foldername = 'Output', header=[], rows =[]):
     """
     Writes results to CSV file.
     """
@@ -68,7 +68,7 @@ def create_output_csv(filename, foldername = 'Output', header=[], rows =[]):
 
 
 
-def read_csv(filename):
+def read_csv_file(filename):
     """
     Reads CSV file.
     """    
@@ -82,11 +82,13 @@ def read_csv(filename):
         return header, rows
 
         
-def read_logs(filename, lock_name):
-    header, logs = read_csv( filename= filename)
+def read_logs_file(filename, lock_name):
+    header, logs = read_csv_file( filename= filename)
     x_num_threads =[]
     y_num_links = []
-    lock_idx = thread_idx = links_idx = links_status = int()
+    lock_idx = 2
+    thread_idx = 3
+    links_idx = 4
     #get column number of Lock Option
     for i in range(len(header)):
         if header[i] == "Lock Option":

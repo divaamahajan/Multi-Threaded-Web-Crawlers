@@ -1,9 +1,6 @@
-from sre_constants import SUCCESS
-from bs4 import BeautifulSoup
-from concurrent.futures import ThreadPoolExecutor, thread, TimeoutError
 import atexit
-
-from numpy import append
+from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor, thread
 from monitorlock import MonitorCrawlers
 from semaphorelock import SemaphporeCrawlers
 from urllib.parse import urljoin, urlparse
@@ -13,7 +10,6 @@ import threading
 import time
 import textprint as txt
 
-SUCCESS_RESPONSE_STATUS = 200
 FRONTIER_SIZE = 10
 MAX_RUNNING_TIME_SECONDS = 3
 class MultiThreadedCrawler:
@@ -36,7 +32,6 @@ class MultiThreadedCrawler:
         self.frontier_queue = [None] * FRONTIER_SIZE
         self.idx_put = self.idx_pop = int(0)
         self._mutex_lock = threading.Semaphore(1)
-        self.repeated = list()
         self.lock_sem = SemaphporeCrawlers(FRONTIER_SIZE)
         self.lock_mon = MonitorCrawlers(FRONTIER_SIZE)
         self.store_metadata = False
@@ -155,8 +150,6 @@ class MultiThreadedCrawler:
                         thread_list.append(crawler_thread_job)
                         # as corresponding thread job has settled call parser filter
                         crawler_thread_job.add_done_callback(self.parser_filter)
-                    else:
-                        self.repeated.append(target_url)
                     current_time = time.time()
                     
                 except Exception as e:
@@ -171,13 +164,13 @@ class MultiThreadedCrawler:
         if self.store_metadata:
             visited_links_filename, visited_links_list = self.get_visited_link_info()        
             # Writes a new xls for content_1
-            file_parser.create_output_csv(
+            file_parser.create_output_csv_file(
                 filename = visited_links_filename, 
                 foldername='Metadata',
                 rows= visited_links_list
                 )
         # Appends a new row to log file
-        file_parser.create_output_csv(
+        file_parser.create_output_csv_file(
             filename = log_filename , 
             rows=[self.get_log_row()]
         )
@@ -202,7 +195,6 @@ class MultiThreadedCrawler:
             txt.current_time_str() ,  
             txt.lock_option_str(self) , 
             self.number_of_threads, 
-            len(self.visited_links),            
-            len(self.repeated)
+            len(self.visited_links)
             ]
 
