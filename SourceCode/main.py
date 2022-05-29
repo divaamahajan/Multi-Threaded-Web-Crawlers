@@ -1,4 +1,3 @@
-import time
 import file_parser
 import validators
 import textprint
@@ -8,10 +7,8 @@ import os
 
 try:
     EXCEPTION_FILENAME = 'exceptions.csv'
-    LOG_FILENAME = "data_log_monitor_frontier30.csv"
-    # LOG_FILENAME = "data_log_serverhost_frontier20.csv"
-    # LOG_FILENAME = "data_log_serverhost_frontier30.csv"
-    
+    FRONTIER_SIZE = 10
+    LOG_FILENAME = f"data_log_frontier{FRONTIER_SIZE}.csv"
     URL_file = file_parser.get_file_path('TestFiles','TestURL.txt')
     print('Testing data file: \n',URL_file)
     raw_URL_list = file_parser.parse_url_file(URL_file)
@@ -47,31 +44,19 @@ try:
         lock_type = int(lock_type)
 
     
-    for t in range(1, 10):
-        number_of_threads = t
-        for l in range (3):
-            lock_type = 3
-            for url in Seed_URL_list:
-                spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
-                print(textprint.lock_option_str(spider))  
-                spider.run_web_crawler()
-                spider.write_output(LOG_FILENAME)
-                spider.write_exceptions(EXCEPTION_FILENAME)
-    #         time.sleep(60)     
-
-    # while Seed_URL_list:
-    #     url = Seed_URL_list.pop()
-    #     spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd)  
-    #     print(textprint.lock_option_str(spider))  
-    #     spider.run_web_crawler()
-    #     spider.write_output(LOG_FILENAME) 
-    #     spider.write_exceptions(EXCEPTION_FILENAME)
+    while Seed_URL_list:
+        url = Seed_URL_list.pop()
+        spider = MultiThreadedCrawler(url, number_of_threads , lock_type, metadata_rqd, FRONTIER_SIZE)  
+        print(textprint.lock_option_str(spider))  
+        spider.run_web_crawler()
+        spider.write_output(LOG_FILENAME) 
+        spider.write_exceptions(EXCEPTION_FILENAME)
 
     textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type))
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1))
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2))
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3))
-    # textprint.plot_overlay_graph(filename=LOG_FILENAME)
+    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1),frontier_size=FRONTIER_SIZE)
+    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2),frontier_size=FRONTIER_SIZE)
+    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3),frontier_size=FRONTIER_SIZE)
+    textprint.plot_overlay_graph(filename=LOG_FILENAME,frontier_size=FRONTIER_SIZE)
     os._exit(5)
     
 except Exception as e:

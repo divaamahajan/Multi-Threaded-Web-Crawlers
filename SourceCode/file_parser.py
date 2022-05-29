@@ -102,6 +102,8 @@ def read_logs_file(filename, lock_name):
     thread_links_dict = dict()
     temp = list()
     for col in logs:
+        if ( not col ) or ( not col[0] ):
+            continue
         count_threads = int(col[thread_idx])
         count_links = int(col[links_idx])
         if col[lock_idx] == lock_name: 

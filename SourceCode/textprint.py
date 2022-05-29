@@ -33,15 +33,15 @@ def lock_type_str(lock_type):
     else:
         return "Lockfree"
 
-def plot_graph(filename, lock_name):
+def plot_graph(filename, lock_name , frontier_size):
     xdata , ydata = file_parser.read_logs_file(filename=filename, lock_name=lock_name)    
     plt.plot(xdata,ydata)
-    plt.title(lock_name)
+    plt.title(f'Parallel Webcrawlers with {lock_name} | Frontier Size:{frontier_size}')
     plt.ylabel('No. of Links Visited')# naming the x axis
     plt.xlabel('Number of Threads')# naming the y axis
     plt.show()
 
-def plot_overlay_graph(filename):
+def plot_overlay_graph(filename,frontier_size):
     for lck in range(1,4):
         lock_name = lock_type_str(lck)
         xdata , ydata = file_parser.read_logs_file(filename=filename, lock_name=lock_name)
@@ -51,7 +51,7 @@ def plot_overlay_graph(filename):
             lock_name: ydata}
             )
         plt.plot( 'Thread_'+lock_name, lock_name , data=df, marker='', color= get_colors(lck))
-    plt.title('Parallel Webcrawlers with different locks')
+    plt.title(f'Parallel Webcrawlers with different locks | Frontier Size:{frontier_size}')
     plt.ylabel('No. of Links Visited')# naming the x axis
     plt.xlabel('Number of Threads')# naming the y axis
     plt.legend() # show legend

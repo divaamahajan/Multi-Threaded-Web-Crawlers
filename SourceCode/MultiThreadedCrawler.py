@@ -10,10 +10,10 @@ import threading
 import time
 import textprint as txt
 
-FRONTIER_SIZE = 30
 MAX_RUNNING_TIME_SECONDS = 3
 class MultiThreadedCrawler:
-    def __init__(self, seed_url, num_threads, locking_option, metadata_store):
+    def __init__(self, seed_url, num_threads, locking_option, metadata_store,frontier_size):
+        self.frontier_size = frontier_size
         self.seed_url = seed_url
         self.number_of_threads = num_threads
         self.root_url = "{}://{}".format(
@@ -28,11 +28,11 @@ class MultiThreadedCrawler:
         )  # List to maintain the history of visited links to avoid duplicate visits
         self.visited_links.add("ROOT")
         # self.frontier_queue = Queue()
-        self.frontier_queue = [None] * FRONTIER_SIZE
+        self.frontier_queue = [None] * self.frontier_size
         self.idx_put = self.idx_pop = int(0)
         self._mutex_lock = threading.Semaphore(1)
-        self.lock_sem = SemaphporeCrawlers(FRONTIER_SIZE)
-        self.lock_mon = MonitorCrawlers(FRONTIER_SIZE)
+        self.lock_sem = SemaphporeCrawlers(self.frontier_size)
+        self.lock_mon = MonitorCrawlers(self.frontier_size)
         self.store_metadata = False
         self.lockfree = False
         self.semaphorelock = False
@@ -72,7 +72,7 @@ class MultiThreadedCrawler:
             if self.lockfree:
                 # self.frontier_queue.put(url,timeout=60)
                 self.frontier_queue[self.idx_put] = url
-                self.idx_put = (self.idx_put + 1) % FRONTIER_SIZE
+                self.idx_put = (self.idx_put + 1) % self.frontier_size
             elif self.semaphorelock:
                 self.lock_sem.insert(url)
             elif self.monitorlock:
@@ -87,7 +87,7 @@ class MultiThreadedCrawler:
                 # self.frontier_queue.put(url,timeout=60)
                 url = self.frontier_queue[self.idx_pop]
                 self.frontier_queue[self.idx_pop] = None
-                self.idx_pop = (self.idx_pop + 1) % FRONTIER_SIZE
+                self.idx_pop = (self.idx_pop + 1) % self.frontier_size
             elif self.semaphorelock:
                 url = self.lock_sem.remove()
             elif self.monitorlock:
