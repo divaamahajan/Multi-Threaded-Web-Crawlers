@@ -54,17 +54,20 @@ class MultiThreadedCrawler:
         returns a list of items that contain all the anchor tags present in the webpage.
             Relative URL: URL Without root URL and protocol names.
             Absolute URLs: URL With protocol name, Root URL, Document name."""
-        soup = BeautifulSoup(html, "html.parser")
-        Anchor_Tags = soup.find_all("a", href=True)
-        for link in Anchor_Tags:
-            # For each anchor tag, retrieve the value associated with href in the tag using Link[‘href’].
-            url = link["href"]
-            # If it is a Relative URL change it to an absolute URL
-            if url.startswith("/") or url.startswith(self.root_url):
-                url = urljoin(self.root_url, url)
-                # Filter unvisited URL and put it in frontier queue
-                if url not in self.visited_links:
-                    self.add_urls_to_frontier(url)
+        try:
+            soup = BeautifulSoup(html, "html.parser")
+            Anchor_Tags = soup.find_all("a", href=True)
+            for link in Anchor_Tags:
+                # For each anchor tag, retrieve the value associated with href in the tag using Link[‘href’].
+                url = link["href"]
+                # If it is a Relative URL change it to an absolute URL
+                if url.startswith("/") or url.startswith(self.root_url):
+                    url = urljoin(self.root_url, url)
+                    # Filter unvisited URL and put it in frontier queue
+                    if url not in self.visited_links:
+                        self.add_urls_to_frontier(url)
+        except:
+            return
 
     def add_urls_to_frontier(self, url):
         # it blocks at most timeout seconds and raises the Full exception if no free slot was available within that time.
@@ -175,6 +178,7 @@ class MultiThreadedCrawler:
             filename = log_filename , 
             rows=[self.get_log_row()]
         )
+        print(f'Number of links crawled: {len(self.visited_links)}')
 
 
     def write_exceptions(self,exception_filename):

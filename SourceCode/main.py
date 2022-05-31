@@ -52,16 +52,11 @@ try:
         spider.write_output(LOG_FILENAME) 
         spider.write_exceptions(EXCEPTION_FILENAME)
 
-    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type))
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(1),frontier_size=FRONTIER_SIZE)
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(2),frontier_size=FRONTIER_SIZE)
-    # textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(3),frontier_size=FRONTIER_SIZE)
+    textprint.plot_graph(filename=LOG_FILENAME, lock_name=textprint.lock_type_str(lock_type),frontier_size=FRONTIER_SIZE)
     textprint.plot_overlay_graph(filename=LOG_FILENAME,frontier_size=FRONTIER_SIZE)
     os._exit(5)
     
 except Exception as e:
-    print("Crawler finished")
-    print("Reason:")
-    print(e)
+    print(f"/nCrawler finished /nReason:{e}")
     os._exit(5)
 
