@@ -5,11 +5,19 @@ from datetime import datetime
 import file_parser
 import pandas as pd
 
-def print_options():
+def local_server_intro():
+    print("Note:")
+    print('\tIt is difficult to profile a WebCrawler on external servers as they always have some sort of api rate limiting in place to avoid (DoS) denial of service attacks.')
+    print('\tFor testing multithreading on WebCrawler, independent of these external factors, we have created an ideal environment for testing purpose')
+    print('\tWe hosted a local server using fastapi to remove the server api-rate-limiting random bias from different multithreading based WebCrawler runs.')
+    print()
+
+def print_locking_options():
     print("You can use the different locking mechanisms")
     print("\t1.Lock Free Crawlers")
     print("\t2.Implementation of locks using Semaphore mutex ")
     print("\t3.Implementation of locks using Monitors")
+    print()
 
 def current_date_str():
     return datetime.now().strftime("%Y-%d-%m")
