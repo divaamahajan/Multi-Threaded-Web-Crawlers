@@ -14,11 +14,32 @@ This server is based on two of the fastest growing Python libs
 2. Open the terminal and Go to the director of downloaded project file ...\TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING\setup_startup
 #### Windows
 1. Set up virtual linux environment - To execute Shell Script File Using Windows Subsystem For Linux, download Ubuntu From The Microsoft Store, Integrate With WSL and initialize the newly installed Linux distro
+2. follow steps for linux in Ubuntu
 2. Open command promt or PowerShell Window, Type Bash and Click enter
 3. run sh ./quick-setup.sh
+
 #### Linux or macOS
+1. Clone the git code: `git clone https://github.com/divaamahajan/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING.git`
+2. Navigate into TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup `cd TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup`
+2. Run quick-setup.sh script `bash +x quick-setup.sh`.
+3. Make sure you have virtual env installed. `sudo apt install python3.8-venv`
+4. Activate the python virtual env with command printed between # lines.
+```
+########################################################################
+Activate dev profile by running following command
+source /home/divyamahajan/.serv-coder/bin/activate
+########################################################################
+```
+I ran `source /home/divyamahajan/.serv-coder/bin/activate`
+5. 
+
+
+
+
+
 1. Set the script executable permission by running chmod command in Linux: chmod +x quick-setup.sh
 2. Execute a shell script in Linux: ./quick-setup.sh
+3
 
 
 
