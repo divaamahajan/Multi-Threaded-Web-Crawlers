@@ -10,14 +10,21 @@ This server is based on two of the fastest growing Python libs
 1. [fastapi](https://fastapi.tiangolo.com/) and 
 2. [uvicorn](https://www.uvicorn.org/).
 
+The local server also has limits
+During testing, we found, we needed to restart the server on subsequent webcrawler runs.
+We automated with that with a simple script called `driver.py`
+`driver.py` script run shell commands via python `subprocess` to restart the local server in consecutive webcrawler runs to maximize throughput.
+
 ### How to create a setup for the project
+Note: We recommend a Linux/UNIX environment to execute the project. Although, by installing virtual LINUX environment, will help in generating records. However, graph plot is not supported due to lack of UI
+
 1. Update links to be crawled in file ...TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING\TestFiles\TestURL.txt
 2. Make sure you have python3 and pip3 installed.
 #### Windows
 1. Set up virtual linux environment - To execute Shell Script File Using Windows Subsystem For Linux, download Ubuntu From The Microsoft Store, Integrate With WSL and initialize the newly installed Linux distro
 2. follow steps for linux in Ubuntu
 #### Linux or macOS
-1. Clone the git code: `git clone https://github.com/divaamahajan/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING.git`
+1. In case you are unable to navigate to the code directory, clone the git code: `git clone https://github.com/divaamahajan/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING.git`
 2. Navigate into TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup `cd TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup`
 3. Run quick-setup.sh script `bash +x quick-setup.sh`.
 4. Make sure you have virtual env installed. `sudo apt install python3.8-venv`
@@ -29,26 +36,8 @@ Activate dev profile by running following command
 source /home/username/.serv-coder/bin/activate
 ########################################################################
 ```
-for above output execute `source /home/username/.serv-coder/bin/activate`
+for above output, execute `source /home/username/.serv-coder/bin/activate`
  
-
-
-
-
-
-1. Set the script executable permission by running chmod command in Linux: chmod +x quick-setup.sh
-2. Execute a shell script in Linux: ./quick-setup.sh
-3
-
-
-
-
-### driver.py - to maximize localserver throughput.
-1. The local server also has limits
-2. During testing, we found, we needed to restart the server on subsequent webcrawler runs.
-3. We automated with that with a simple script called `driver.py`
-4. `driver.py` script run shell commands via python `subprocess` to restart the local server in consecutive webcrawler runs to maximize throughput.
-
-### How to run driver script
-1. `driver.py` script can be copied into the `TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` folder 
-2. Run to make sure that the localserver provides maximum throughput to webcrawler.
+### How to run driver program
+1. Navigate to SurceCode directory in your terminal `~/code/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` 
+2. Execute `python3 driver.py`
