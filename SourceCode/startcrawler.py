@@ -26,7 +26,7 @@ try:
     number_of_threads   = args['number_of_threads'] #arg parser5
     lock_type           = args['lock_type'] #arg parser6
     metadata_rqd        = args['metadata_rqd'] #arg parser7
-
+    
     # URL_file = file_parser.get_file_path('TestFiles',test_file)
     # print('Testing data file: \n',URL_file)
     # raw_URL_list = file_parser.parse_url_file(URL_file)
@@ -44,7 +44,7 @@ try:
     #     os.exit(1)
         
     # print(f"\nValid Seed URLs :")
-    # print(*seed_url_list, sep= '\n')
+    print(*seed_url_list, sep= '\n')
 
     # number_of_threads = input("Please input number (default:4) of Threads required to crawl the given URL's : ")
     # if not number_of_threads.isdigit():
