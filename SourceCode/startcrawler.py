@@ -6,15 +6,15 @@ import os
 import argparse
 
 import sys
-#main.py
-absolutepath = os.path.abspath(__file__)
+# #main.py
+# absolutepath = os.path.abspath(__file__)
 
-    #source code file
-fileDirectory = os.path.dirname(absolutepath)
-print(fileDirectory)
-sys.path.insert(0, fileDirectory)
+#     #source code file
+# fileDirectory = os.path.dirname(absolutepath)
+# print(fileDirectory)
+# sys.path.insert(0, fileDirectory)
 
-from multithreadedcrawler import MultiThreadedCrawler
+from MultiThreadedCrawler import MultiThreadedCrawler
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--EXCEPTION_FILENAME'  , type=str)
 parser.add_argument('--FRONTIER_SIZE'       , type= int )
