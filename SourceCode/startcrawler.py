@@ -11,6 +11,7 @@ absolutepath = os.path.abspath(__file__)
 
     #source code file
 fileDirectory = os.path.dirname(absolutepath)
+print(fileDirectory)
 sys.path.insert(0, fileDirectory)
 
 from multithreadedcrawler import MultiThreadedCrawler
