@@ -40,7 +40,7 @@ try:
     #     os.exit(1)
         
     # print(f"\nValid Seed URLs :")
-    print(*seed_url_list, sep= '\n')
+    # print(*seed_url_list, sep= '\n')
 
     # number_of_threads = input("Please input number (default:4) of Threads required to crawl the given URL's : ")
     # if not number_of_threads.isdigit():
