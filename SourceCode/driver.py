@@ -69,14 +69,21 @@ def get_lock_type():
 def start_fastapiserver():
     # print('initializing Fast API server...')
     # start fastapiserver
-    localserver = file_parser.get_file_path(folder='setup_startup',file='')
-    os.chdir(localserver)   
+    try:
+        scriptpath = os.path.abspath(__file__)
+        crawler_path = os.path.join(scriptpath, "..")
+        pypath = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "python3")
+    except Exception as e:
+        print('pypath not found ',e)
+    try:
+        localserver = file_parser.get_file_path(folder='setup_startup',file='')
+        os.chdir(localserver)   
+    except Exception as e:
+        print('local server not found ',e)
     uvicorn_path = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "uvicorn")
     p = Popen([uvicorn_path, 'app.main:app'])
-    scriptpath = os.path.abspath(__file__)
-    crawler_path = os.path.join(scriptpath, "..")
-    pypath = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "python3")
     # call webcrawler
+    print('crawler path ', crawler_path)
     os.chdir(crawler_path)
     return p, pypath
 
