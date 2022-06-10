@@ -145,6 +145,8 @@ try:
             text.plot_graph(filename=LOG_FILENAME, lock_name=text.lock_type_str(lock_type),frontier_size=FRONTIER_SIZE)
             pass
         except Exception as e:
+            import traceback
+            traceback.print_stack()
             print(f'Error caught while plotting the {lock_type} graph: {e} \nterminating...')
             os._exit(5)
 
@@ -184,6 +186,8 @@ try:
     os._exit(5)
 except Exception as e:
     print(f'Error caught while plotting the overlay graph: {e} \nterminating...')
+    import traceback
+    traceback.print_stack()
     os._exit(5)
 
 # def get_command_list(cmd):
