@@ -15,8 +15,8 @@ def validate_url(test_file):
         #get file data
         URL_file = file_parser.get_file_path('TestFiles',test_file)
         print('Testing data file: \n',URL_file)
-        raw_URL_list = file_parser.parse_url_file(URL_file)
-        
+        raw_URL_list = file_parser.parse_url_file(URL_file)        
+        p, pypath = start_fastapiserver()
         #Validate URL
         for url in raw_URL_list:
             try:
@@ -28,6 +28,7 @@ def validate_url(test_file):
             except Exception as e:
                 print(e)
                 continue
+        kill_fastapiserver(p)
         if not seed_url_list:
             print(f"No valid URL found. Please update the test file{test_file}")
             print('terminating...')
@@ -84,7 +85,6 @@ def kill_fastapiserver(p):
 
 
 try:
-    p, pypath = start_fastapiserver()
     print('-----Welcome to Parallel Web Crawlers----')
     start_path = file_parser.get_file_path('SourceCode','startcrawler.py')   
     max_threads = get_max_threads()
@@ -101,7 +101,6 @@ try:
     lock_type = get_lock_type()
     metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links: ").upper()
     seed_url_list = get_seed_url_list()
-    kill_fastapiserver(p)
 except Exception as e:
     print(f'Input Error caught : {e} \nterminating...')
     os._exit(1)
