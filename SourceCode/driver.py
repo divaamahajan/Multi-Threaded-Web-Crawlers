@@ -8,7 +8,7 @@ import textprint as text
 
 EXCEPTION_FILENAME = 'exceptions.csv'
 FRONTIER_SIZE = 10
-LOG_FILENAME = f"data_log_frontier{FRONTIER_SIZE}_{text.current_date_str}.csv"
+LOG_FILENAME = f"data_log_frontier{FRONTIER_SIZE}_{text.current_date_str()}.csv"
 def validate_url(test_file):
     seed_url_list  = ''
     try:
