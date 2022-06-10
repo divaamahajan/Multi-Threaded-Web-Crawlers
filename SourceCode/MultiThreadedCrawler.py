@@ -73,7 +73,6 @@ class MultiThreadedCrawler:
         # it blocks at most timeout seconds and raises the Full exception if no free slot was available within that time.
         try:
             if self.lockfree:
-                # self.frontier_queue.put(url,timeout=60)
                 self.frontier_queue[self.idx_put] = url
                 self.idx_put = (self.idx_put + 1) % self.frontier_size
             elif self.semaphorelock:
@@ -85,9 +84,7 @@ class MultiThreadedCrawler:
 
     def get_urls_from_frontier(self):
         try:
-            # return self.frontier_queue.get(timeout=60)
             if self.lockfree:
-                # self.frontier_queue.put(url,timeout=60)
                 url = self.frontier_queue[self.idx_pop]
                 self.frontier_queue[self.idx_pop] = None
                 self.idx_pop = (self.idx_pop + 1) % self.frontier_size
@@ -102,10 +99,8 @@ class MultiThreadedCrawler:
     def parser_filter(self, thread_job_obj):
         try:
             api_response = thread_job_obj.result()
-            if api_response: # and api_response.status_code == 200:
+            if api_response: 
                 self.parse_links(api_response.text)
-                # if self.store_metadata:
-                #     self.metadata(api_response.text, api_response.url)
         except Exception:
             pass
 

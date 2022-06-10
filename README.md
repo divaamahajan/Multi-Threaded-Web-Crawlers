@@ -23,7 +23,7 @@ Note: We recommend a Linux/UNIX environment to execute the project. Although, by
 #### Windows
 1. Set up virtual linux environment - To execute Shell Script File Using Windows Subsystem For Linux, download Ubuntu From The Microsoft Store, Integrate With WSL and initialize the newly installed Linux distro
 2. follow steps for linux in Ubuntu
-#### Linux or macOS
+#### Linux/UNIX
 1. In case you are unable to navigate to the code directory, clone the git code: `git clone https://github.com/divaamahajan/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING.git`
 2. Navigate into TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup `cd TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup`
 3. Run quick-setup.sh script `bash +x quick-setup.sh`.
@@ -41,4 +41,5 @@ for above output, execute `source /home/username/.serv-coder/bin/activate`
 ### How to run driver program
 1. Navigate to SurceCode directory in your terminal `~/code/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` 
 2. Execute `python3 driver.py`
+3. Please make sure to change the output log directory, if you change the set of seed URLs, for accurate results
 
