@@ -88,7 +88,7 @@ def start_fastapiserver():
     p = Popen([uvicorn_path, 'app.main:app'])
     # call webcrawler
     print('crawler path ', parentDirectory)
-    os.chdir(os.join(parentDirectory, "SourceCode"))
+    os.chdir(os.path.join(parentDirectory, "SourceCode"))
     return p, pypath
 
 def kill_fastapiserver(p):
