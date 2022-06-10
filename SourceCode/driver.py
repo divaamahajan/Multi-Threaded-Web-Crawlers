@@ -91,10 +91,10 @@ try:
     text.print_locking_options()
     automate = input(f'Would you like to automate the WebCrawler to run up to 1 to {max_threads} threads for all available locks respectively(Y/N) : ')
     if automate.upper() == 'Y':
-        print(f'The crawler will be automated upto {max_threads} threads\nPlease check Output/{LOG_FILENAME} file for end records.')
+        print(f'\nNote:\n\tThe crawler will be automated upto {max_threads} threads\n\tPlease check Output/{LOG_FILENAME} file for end records.')
         automate = True    
     else:
-        print(f'The crawler will be execute for once for {max_threads} threads\nPlease check Output/{LOG_FILENAME} file for end record.')
+        print(f'Note:\n\tThe crawler will be execute for once for {max_threads} threads\n\tPlease check Output/{LOG_FILENAME} file for end record.')
         automate = False
 
     lock_type = get_lock_type()
