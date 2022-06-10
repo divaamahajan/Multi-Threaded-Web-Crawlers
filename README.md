@@ -1,5 +1,5 @@
 # TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING
-This project aims to implement multithreaded web crawlers with and without locks. There is a shared resource for multiple web crawlers, which is the URL frontier queue. The URL frontier queue is of fixed length, which stores the URLs that need to be crawled. Each crawler is going to extract a task (URL to crawl) from the frontier, crawls this web page to find further links available on this page, and push the fetched links into the frontier for further crawling. To avoid collision inside the URL frontier, locks must be employed for any push or pop from the frontier queue. This paper distinguishes the optimistic locking system and pessimistic locking system and implements two locking mechanisms: semaphore and monitor. It also analyzes the Coarse-grained locking technique and Fine-grained locking technique for the web crawlers. The performance of the different locking techniques and lock-free approach can be evaluated by the number of threads crawled within a given time slice. 
+This project aims to implement multithreaded web crawlers with and without locks. There is a shared resource for multiple web crawlers, which is the URL frontier queue. The URL frontier queue is of fixed length, which stores the URLs that need to be crawled. Each crawler is going to extract a task (URL to crawl) from the frontier, crawl this web page to find further links available on this page, and push the fetched links into the frontier for further crawling. To avoid collision inside the URL frontier, locks must be employed for any push or pop from the frontier queue. This paper distinguishes the optimistic locking system and pessimistic locking system and implements two locking mechanisms: semaphore and monitor. It also analyzes the Coarse-grained locking technique and Fine-grained locking technique for the web crawlers. The performance of the different locking techniques and lock-free approach can be evaluated by the number of threads crawled within a given time slice. 
 Keywords— multithreaded web crawlers, semaphore, monitor, performance
 
 
@@ -39,7 +39,10 @@ source /home/username/.serv-coder/bin/activate
 for above output, execute `source /home/username/.serv-coder/bin/activate`
  
 ### How to run driver program
-1. Navigate to SurceCode directory in your terminal `~/code/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` 
+1. Navigate to SourceCode directory in your terminal `~/code/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` 
 2. Execute `python3 driver.py`
 3. Please make sure to change the output log directory, if you change the set of seed URLs, for accurate results
+![setup screenshot](setup_startup\Setup Screenshot.png)
+
+
 
