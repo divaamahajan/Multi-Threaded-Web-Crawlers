@@ -136,12 +136,14 @@ try:
                  "--metadata_rqd",
                  metadata_rqd
                  ]
-        print(cmd)
+        print(*cmd, sep= '\n')
         subprocess.call(cmd)
+        print('subprocess called successfully')
         # python3 startcrawler.py   
         kill_fastapiserver(p)
         try:
             text.plot_graph(filename=LOG_FILENAME, lock_name=text.lock_type_str(lock_type),frontier_size=FRONTIER_SIZE)
+            pass
         except Exception as e:
             print(f'Error caught while plotting the {lock_type} graph: {e} \nterminating...')
             os._exit(5)
@@ -169,11 +171,13 @@ try:
                         "--metadata_rqd",
                         metadata_rqd
                         ]
-                print(cmd)
+                print(*cmd, sep= '\n')
                 subprocess.call(cmd)
+                print('subprocess called successfully')
                 kill_fastapiserver(p)
 except Exception as e:
     print(f'Error caught : {e} \nterminating...')
+    kill_fastapiserver(p)
 
 try:
     text.plot_overlay_graph(filename=LOG_FILENAME,frontier_size=FRONTIER_SIZE)
