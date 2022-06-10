@@ -23,7 +23,6 @@ def validate_url(test_file):
                 if not validators.url(url)  or  requests.get(url=url, timeout=30).status_code != 200:
                     print(f"Invalid URL : {url}")
                 else: 
-                    # seed_url_list.append(url)
                     seed_url_list += url + ' ,'
             except Exception as e:
                 print(e)
@@ -39,7 +38,6 @@ def validate_url(test_file):
     
     seed = seed_url_list[0:-2]
     print(f"\nValid Seed URLs : {seed}")
-    # print(*seed_url_list, sep= '\n')
     return seed
 
 def get_seed_url_list():
@@ -68,13 +66,8 @@ def get_lock_type():
     return lock_type
 
 def start_fastapiserver():
-    # print('initializing Fast API server...')
-    # start fastapiserver
     try:
-        #source code file
         fileDirectory = os.path.dirname(os.path.abspath(__file__))
-        #Path of parent directory
-        # Techniques to implement web crawler
         parentDirectory = os.path.dirname(fileDirectory)
         pypath = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "python3")
     except Exception as e:
@@ -100,7 +93,7 @@ try:
     max_threads = get_max_threads()
     print()
     text.print_locking_options()
-    automate = input(f'Would you like to automate the WebCrawler to run up to 1 to {max_threads} threads for all available locks respectively(Y/N) : ')
+    automate = input(f'Would you like to automate the WebCrawler to run up to 1 to {max_threads} threads for all available locks respectively(Y/N) (default No): ')
     if automate.upper() == 'Y':
         print(f'\nNote:\n\tThe crawler will be automated upto {max_threads} threads\n\tPlease check Output/{LOG_FILENAME} file for end records.')
         automate = True    
@@ -108,7 +101,7 @@ try:
         print(f'Note:\n\tThe crawler will be execute for once for {max_threads} threads\n\tPlease check Output/{LOG_FILENAME} file for end record.')
         automate = False
         lock_type = get_lock_type()
-    metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links: ").upper()
+    metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links(default No): ").upper()
     seed_url_list = get_seed_url_list()
 except Exception as e:
     print(f'Input Error caught : {e} \nterminating...')
@@ -136,7 +129,7 @@ try:
                  metadata_rqd
                  ]
         subprocess.call(cmd)
-        # python3 startcrawler.py   
+        # python3 startcrawler.py           
         kill_fastapiserver(p)
         try:
             text.plot_graph(filename=LOG_FILENAME, lock_name=text.lock_type_str(lock_type),frontier_size=FRONTIER_SIZE)
@@ -172,7 +165,6 @@ try:
                 kill_fastapiserver(p)
 except Exception as e:
     print(f'Error caught : {e} \nterminating...')
-    kill_fastapiserver(p)
 
 try:
     text.plot_overlay_graph(filename=LOG_FILENAME,frontier_size=FRONTIER_SIZE)
@@ -180,26 +172,3 @@ try:
 except Exception as e:
     print(f'Error caught while plotting the overlay graph: {e} \nterminating...')
     os._exit(5)
-
-# def get_command_list(cmd):
-#     return cmd.split(" ")
-
-# for t in range(50,51 ,2):
-#     for l in range(1):
-#         lck = (l%3) + 1
-        
-#         # start fastapiserver
-#         os.chdir("/Users/achin.gupta/Documents/exps/fastapi")
-        
-#         p = Popen(['/Users/achin.gupta/Documents/exps/fastapi/venv/bin/uvicorn', 'app.main:app'])
-
-
-#         # call webcrawler
-#         os.chdir("/Users/achin.gupta/Documents/exps/webcrawler/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING")
-
-#         subprocess.call(['/Users/achin.gupta/.webcrawler-coder/bin/python3', 
-#                          '/Users/achin.gupta/Documents/exps/webcrawler/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode/main.py', 
-#                          "-th", str(t), "-lt", str(lck)])
-
-#         # kill fastapi server
-#         p.terminate()
