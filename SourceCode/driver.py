@@ -70,8 +70,11 @@ def start_fastapiserver():
     # print('initializing Fast API server...')
     # start fastapiserver
     try:
-        scriptpath = os.path.abspath(__file__)
-        crawler_path = os.path.join(scriptpath, "..")
+        #source code file
+        fileDirectory = os.path.dirname(os.path.abspath(__file__))
+        #Path of parent directory
+        # Techniques to implement web crawler
+        parentDirectory = os.path.dirname(fileDirectory)
         pypath = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "python3")
     except Exception as e:
         print('pypath not found ',e)
@@ -83,8 +86,8 @@ def start_fastapiserver():
     uvicorn_path = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "uvicorn")
     p = Popen([uvicorn_path, 'app.main:app'])
     # call webcrawler
-    print('crawler path ', crawler_path)
-    os.chdir(crawler_path)
+    print('crawler path ', parentDirectory)
+    os.chdir(parentDirectory)
     return p, pypath
 
 def kill_fastapiserver(p):

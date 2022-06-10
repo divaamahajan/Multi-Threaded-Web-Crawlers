@@ -36,7 +36,7 @@ def get_file_path(folder,file):
     fileDirectory = os.path.dirname(absolutepath)
 
     #Path of parent directory
-    # Aging ALgo
+    # Techniques to implement web crawler
     parentDirectory = os.path.dirname(fileDirectory)
 
     #Navigate to folder directory
