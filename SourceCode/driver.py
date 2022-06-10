@@ -158,15 +158,15 @@ try:
                         "--EXCEPTION_FILENAME",
                         EXCEPTION_FILENAME,
                         "--FRONTIER_SIZE",
-                        FRONTIER_SIZE,
+                        str(FRONTIER_SIZE),
                         "--LOG_FILENAME",
                         LOG_FILENAME,
                         "--seed_url_list",
                         seed_url_list ,
                         "--number_of_threads",
-                        t,
+                        str(t),
                         "--lock_type",
-                        lck ,
+                        str(lck) ,
                         "--metadata_rqd",
                         metadata_rqd
                         ]
