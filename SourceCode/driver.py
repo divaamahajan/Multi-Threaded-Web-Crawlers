@@ -40,7 +40,7 @@ def validate_url(test_file):
     seed = '"' + seed_url_list[0:-2] + '"'
     print(f"\nValid Seed URLs : {seed}")
     # print(*seed_url_list, sep= '\n')
-    return seed_url_list
+    return seed
 
 def get_seed_url_list():
     text.local_server_intro()
