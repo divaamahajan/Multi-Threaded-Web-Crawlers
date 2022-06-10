@@ -88,7 +88,7 @@ def start_fastapiserver():
     p = Popen([uvicorn_path, 'app.main:app'])
     # call webcrawler
     print('crawler path ', parentDirectory)
-    # os.chdir(parentDirectory)
+    os.chdir(os.join(parentDirectory, "SourceCode"))
     return p, pypath
 
 def kill_fastapiserver(p):
@@ -108,8 +108,7 @@ try:
     else:
         print(f'Note:\n\tThe crawler will be execute for once for {max_threads} threads\n\tPlease check Output/{LOG_FILENAME} file for end record.')
         automate = False
-
-    lock_type = get_lock_type()
+        lock_type = get_lock_type()
     metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links: ").upper()
     seed_url_list = get_seed_url_list()
 except Exception as e:
