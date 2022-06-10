@@ -31,7 +31,7 @@ def validate_url(test_file):
         if not seed_url_list:
             print(f"No valid URL found. Please update the test file{test_file}")
             print('terminating...')
-            os.exit(1)
+            os._exit(1)
     except Exception as e:
         print(f'Input file exception caught : {e}')
         return
