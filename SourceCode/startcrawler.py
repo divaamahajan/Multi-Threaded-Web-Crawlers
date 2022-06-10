@@ -2,7 +2,6 @@
 import textprint
 # import validators
 # import requests
-from multithreadedcrawler import MultiThreadedCrawler
 import os
 import argparse
 
@@ -14,6 +13,7 @@ absolutepath = os.path.abspath(__file__)
 fileDirectory = os.path.dirname(absolutepath)
 sys.path.insert(0, fileDirectory)
 
+from multithreadedcrawler import MultiThreadedCrawler
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--EXCEPTION_FILENAME'  , type=str)
 parser.add_argument('--FRONTIER_SIZE'       , type= int )
