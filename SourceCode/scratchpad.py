@@ -1,6 +1,10 @@
 
-a = ['','','']
-if not a[0]:
-    print(1)
-else:
-    print(2)
+def new_func():
+    a = ''
+    x = 'hello'
+    a += x + ','
+    x = 'bye'
+    a += x + ','
+    print( a)
+
+new_func()

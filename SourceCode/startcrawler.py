@@ -4,16 +4,29 @@ import textprint
 # import requests
 from multithreadedcrawler import MultiThreadedCrawler 
 import os
+import argparse
 
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('--EXCEPTION_FILENAME'  , type=str)
+parser.add_argument('--FRONTIER_SIZE'       , type= int )
+parser.add_argument('--LOG_FILENAME'        , type= str )
+parser.add_argument('--seed_url_list'       , type= str)
+parser.add_argument('--number_of_threads'   , type= int )
+parser.add_argument('--lock_type'           , type= int )
+parser.add_argument('--metadata_rqd'        , type= str )
+
+
+args = vars(parser.parse_args())
+print(args)
 try:
-    EXCEPTION_FILENAME = '' #arg parser1
-    FRONTIER_SIZE = int() #arg parser2
-    LOG_FILENAME = '' #arg parser3
-    seed_url_list =[] #arg parser4
-    number_of_threads = int() #arg parser5
-    lock_type = int() #arg parser6
-    metadata_rqd = '' #arg parser7
-    
+    EXCEPTION_FILENAME  = args['EXCEPTION_FILENAME'] #arg parser1
+    FRONTIER_SIZE       = args['FRONTIER_SIZE'] #arg parser2
+    LOG_FILENAME        = args['LOG_FILENAME'] #arg parser3
+    seed_url_list       = list(args['seed_url_list'].split(" ,"))#arg parser4
+    number_of_threads   = args['number_of_threads'] #arg parser5
+    lock_type           = args['lock_type'] #arg parser6
+    metadata_rqd        = args['metadata_rqd'] #arg parser7
+
     # URL_file = file_parser.get_file_path('TestFiles',test_file)
     # print('Testing data file: \n',URL_file)
     # raw_URL_list = file_parser.parse_url_file(URL_file)

@@ -46,7 +46,8 @@ def get_file_path(folder,file):
         os.makedirs(newPath)
 
     #Navigate to file
-    newPath = os.path.join(newPath, file)       
+    if file:
+        newPath = os.path.join(newPath, file)       
     return(newPath)
 
 

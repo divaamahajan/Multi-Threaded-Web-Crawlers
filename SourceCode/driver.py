@@ -10,7 +10,7 @@ EXCEPTION_FILENAME = 'exceptions.csv'
 FRONTIER_SIZE = 10
 LOG_FILENAME = f"data_log_frontier{FRONTIER_SIZE}_{text.current_date_str}.csv"
 def validate_url(test_file):
-    seed_url_list  = []
+    seed_url_list  = ''
     try:
         #get file data
         URL_file = file_parser.get_file_path('TestFiles',test_file)
@@ -23,7 +23,8 @@ def validate_url(test_file):
                 if not validators.url(url)  or  requests.get(url=url, timeout=30).status_code != 200:
                     print(f"Invalid URL : {url}")
                 else: 
-                    seed_url_list.append(url)
+                    # seed_url_list.append(url)
+                    seed_url_list += url + ' ,'
             except Exception as e:
                 print(e)
                 continue
@@ -35,8 +36,8 @@ def validate_url(test_file):
         print(f'Input file exception caught : {e}')
         return
         
-    print(f"\nValid Seed URLs :")
-    print(*seed_url_list, sep= '\n')
+    print(f"\nValid Seed URLs : {seed_url_list.replace(' ,','\n')}")
+    # print(*seed_url_list, sep= '\n')
     return seed_url_list
 
 def get_seed_url_list():
@@ -64,8 +65,18 @@ def get_lock_type():
     return lock_type
 
 def start_fastapiserver():
-    print('initializing Fast API server...')
-    return p
+    # print('initializing Fast API server...')
+    # start fastapiserver
+    localserver = file_parser.get_file_path(folder='setup_startup',file='')
+    os.chdir(localserver)   
+    uvicorn_path = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "uvicorn")
+    p = Popen([uvicorn_path, 'app.main:app'])
+    scriptpath = os.path.abspath(__file__)
+    crawler_path = os.path.join(scriptpath, "..")
+    pypath = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "python3")
+    # call webcrawler
+    os.chdir(crawler_path)
+    return p, pypath
 
 def kill_fastapiserver(p):
     p.terminate()
@@ -90,15 +101,26 @@ except Exception as e:
 
 try:
     if not automate:
-        p = start_fastapiserver()
-        subprocess.call( start_path , 
+        p, pypath = start_fastapiserver()
+        subprocess.call([ 
+                        pypath,
+                        start_path , 
+                        "--EXCEPTION_FILENAME",
                         EXCEPTION_FILENAME,
+                        "--FRONTIER_SIZE",
                         FRONTIER_SIZE,
+                        "--LOG_FILENAME",
                         LOG_FILENAME,
+                        "--seed_url_list",
                         seed_url_list ,
+                        "--number_of_threads",
                         max_threads,
+                        "--lock_type",
                         lock_type ,
-                        metadata_rqd )
+                        "--metadata_rqd",
+                        metadata_rqd
+                        ])
+        # python3 startcrawler.py   
         kill_fastapiserver(p)
         try:
             text.plot_graph(filename=LOG_FILENAME, lock_name=text.lock_type_str(lock_type),frontier_size=FRONTIER_SIZE)
@@ -110,15 +132,25 @@ try:
         for t in range (1,max_threads):
             for l in range(9):
                 lck = (l%3) +1
-                p = start_fastapiserver()
-                subprocess.call( start_path , 
-                                EXCEPTION_FILENAME,
-                                FRONTIER_SIZE,
-                                LOG_FILENAME,
-                                seed_url_list ,
-                                t,
-                                lck ,
-                                metadata_rqd ) 
+                p, pypath = start_fastapiserver()
+                subprocess.call([ 
+                        pypath,
+                        start_path , 
+                        "--EXCEPTION_FILENAME",
+                        EXCEPTION_FILENAME,
+                        "--FRONTIER_SIZE",
+                        FRONTIER_SIZE,
+                        "--LOG_FILENAME",
+                        LOG_FILENAME,
+                        "--seed_url_list",
+                        seed_url_list ,
+                        "--number_of_threads",
+                        t,
+                        "--lock_type",
+                        lck ,
+                        "--metadata_rqd",
+                        metadata_rqd
+                        ])
                 kill_fastapiserver(p)
 except Exception as e:
     print(f'Error caught : {e} \nterminating...')

@@ -1,7 +1,9 @@
 # TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING
-We aim to implement multithread management and synchronization techniques for web crawlers. The key concepts we will focus on are process, thread, and synchronization. To implement synchronization, we will apply mutual exclusion and some locking techniques. These topics are all important components in operating systems
+This project aims to implement multithreaded web crawlers with and without locks. There is a shared resource for multiple web crawlers, which is the URL frontier queue. The URL frontier queue is of fixed length, which stores the URLs that need to be crawled. Each crawler is going to extract a task (URL to crawl) from the frontier, crawls this web page to find further links available on this page, and push the fetched links into the frontier for further crawling. To avoid collision inside the URL frontier, locks must be employed for any push or pop from the frontier queue. This paper distinguishes the optimistic locking system and pessimistic locking system and implements two locking mechanisms: semaphore and monitor. It also analyzes the Coarse-grained locking technique and Fine-grained locking technique for the web crawlers. The performance of the different locking techniques and lock-free approach can be evaluated by the number of threads crawled within a given time slice. 
+Keywords— multithreaded web crawlers, semaphore, monitor, performance
 
-## Introduction
+
+## Background
 It is difficult to profile a webcrawler on external servers as they always have some sort of *api rate limiting* in place to avoid (DoS) denial of service attacks.
 We hosted a local server using fastapi to *remove the server api-rate-limiting random bias* from different multithreading based webcrawler runs.
 This server is based on two of the fastest growing Python libs  
@@ -10,28 +12,25 @@ This server is based on two of the fastest growing Python libs
 
 ### How to create a setup for the project
 1. Update links to be crawled in file ...TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING\TestFiles\TestURL.txt
-1. Make sure you have python3 and pip3 installed.
-2. Open the terminal and Go to the director of downloaded project file ...\TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING\setup_startup
+2. Make sure you have python3 and pip3 installed.
 #### Windows
 1. Set up virtual linux environment - To execute Shell Script File Using Windows Subsystem For Linux, download Ubuntu From The Microsoft Store, Integrate With WSL and initialize the newly installed Linux distro
 2. follow steps for linux in Ubuntu
-2. Open command promt or PowerShell Window, Type Bash and Click enter
-3. run sh ./quick-setup.sh
-
 #### Linux or macOS
 1. Clone the git code: `git clone https://github.com/divaamahajan/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING.git`
 2. Navigate into TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup `cd TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/setup_startup`
-2. Run quick-setup.sh script `bash +x quick-setup.sh`.
-3. Make sure you have virtual env installed. `sudo apt install python3.8-venv`
-4. Activate the python virtual env with command printed between # lines.
+3. Run quick-setup.sh script `bash +x quick-setup.sh`.
+4. Make sure you have virtual env installed. `sudo apt install python3.8-venv`
+5. Activate the python virtual env with command printed between # lines.
+for example
 ```
 ########################################################################
 Activate dev profile by running following command
-source /home/divyamahajan/.serv-coder/bin/activate
+source /home/username/.serv-coder/bin/activate
 ########################################################################
 ```
-I ran `source /home/divyamahajan/.serv-coder/bin/activate`
-5. 
+for above output execute `source /home/username/.serv-coder/bin/activate`
+ 
 
 
 
