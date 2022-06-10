@@ -118,24 +118,26 @@ except Exception as e:
 try:
     if not automate:
         p, pypath = start_fastapiserver()
-        subprocess.call([ 
-                        pypath,
-                        start_path , 
-                        "--EXCEPTION_FILENAME",
-                        EXCEPTION_FILENAME,
-                        "--FRONTIER_SIZE",
-                        FRONTIER_SIZE,
-                        "--LOG_FILENAME",
-                        LOG_FILENAME,
-                        "--seed_url_list",
-                        seed_url_list ,
-                        "--number_of_threads",
-                        max_threads,
-                        "--lock_type",
-                        lock_type ,
-                        "--metadata_rqd",
-                        metadata_rqd
-                        ])
+        cmd = [
+                 pypath,
+                 start_path , 
+                 "--EXCEPTION_FILENAME",
+                 EXCEPTION_FILENAME,
+                 "--FRONTIER_SIZE",
+                 FRONTIER_SIZE,
+                 "--LOG_FILENAME",
+                 LOG_FILENAME,
+                 "--seed_url_list",
+                 seed_url_list ,
+                 "--number_of_threads",
+                 max_threads,
+                 "--lock_type",
+                 lock_type ,
+                 "--metadata_rqd",
+                 metadata_rqd
+                 ]
+        print(cmd)
+        subprocess.call(cmd)
         # python3 startcrawler.py   
         kill_fastapiserver(p)
         try:
@@ -149,7 +151,7 @@ try:
             for l in range(9):
                 lck = (l%3) +1
                 p, pypath = start_fastapiserver()
-                subprocess.call([ 
+                cmd = [ 
                         pypath,
                         start_path , 
                         "--EXCEPTION_FILENAME",
@@ -166,7 +168,9 @@ try:
                         lck ,
                         "--metadata_rqd",
                         metadata_rqd
-                        ])
+                        ]
+                print(cmd)
+                subprocess.call(cmd)
                 kill_fastapiserver(p)
 except Exception as e:
     print(f'Error caught : {e} \nterminating...')
