@@ -84,6 +84,7 @@ def kill_fastapiserver(p):
 
 
 try:
+    p, pypath = start_fastapiserver()
     print('-----Welcome to Parallel Web Crawlers----')
     start_path = file_parser.get_file_path('SourceCode','startcrawler.py')   
     max_threads = get_max_threads()
@@ -100,6 +101,7 @@ try:
     lock_type = get_lock_type()
     metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links: ").upper()
     seed_url_list = get_seed_url_list()
+    kill_fastapiserver(p)
 except Exception as e:
     print(f'Input Error caught : {e} \nterminating...')
     os._exit(1)
