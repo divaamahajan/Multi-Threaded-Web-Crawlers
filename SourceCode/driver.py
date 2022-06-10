@@ -36,13 +36,13 @@ def validate_url(test_file):
         print(f'Input file exception caught : {e}')
         return
         
-    print(f"\nValid Seed URLs : {seed_url_list.replace(' ,','\n')}")
+    print(f"\nValid Seed URLs : {seed_url_list}")
     # print(*seed_url_list, sep= '\n')
     return seed_url_list
 
 def get_seed_url_list():
     text.local_server_intro()
-    test_file = input('Would you like test on \n\t1. Local Server(default) ..TestFiles\TestURL_local_server.txt \n\t2. updated ..TestFiles\TestURL.txt')
+    test_file = input('Would you like test on \n\t1. Local Server(default) ..TestFiles\TestURL_local_server.txt \n\t2. Custom ..TestFiles\TestURL.txt\n')
     if test_file == '2':
         test_file = 'TestURL.txt'
     else:
@@ -51,13 +51,14 @@ def get_seed_url_list():
 
 def get_max_threads():
     max_threads = input("Please input maximum number (default:4) of Threads required to crawl the given URLs : ")
-    if not max_threads.isdigit():
+    if not max_threads or not max_threads.isdigit():
         max_threads = 4
     else:
         max_threads = int(max_threads)
+    return max_threads
 
 def get_lock_type():
-    lock_type = input("Please enter the type of lock (default: 1.Lockfree) you wish to implement from above options: ")
+    lock_type = input("\nPlease enter the type of lock (default: 1.Lockfree) you wish to implement from above options: ")
     if not lock_type.isdigit():
         lock_type = 1
     else:
@@ -83,16 +84,20 @@ def kill_fastapiserver(p):
 
 
 try:
+    print('-----Welcome to Parallel Web Crawlers----')
     start_path = file_parser.get_file_path('SourceCode','startcrawler.py')   
     max_threads = get_max_threads()
     print()
     text.print_locking_options()
     automate = input(f'Would you like to automate the WebCrawler to run up to 1 to {max_threads} threads for all available locks respectively(Y/N) : ')
     if automate.upper() == 'Y':
+        print(f'The crawler will be automated upto {max_threads} threads\nPlease check Output/{LOG_FILENAME} file for end records.')
         automate = True    
     else:
+        print(f'The crawler will be execute for once for {max_threads} threads\nPlease check Output/{LOG_FILENAME} file for end record.')
         automate = False
-        lock_type = get_lock_type()
+
+    lock_type = get_lock_type()
     metadata_rqd = input("\nPlease type 'Y' if you want to store the list of visited links: ").upper()
     seed_url_list = get_seed_url_list()
 except Exception as e:

@@ -13,7 +13,7 @@ def local_server_intro():
     print()
 
 def print_locking_options():
-    print("You can use the different locking mechanisms")
+    print("In this Web crawler mechanism you can use the different locking mechanisms")
     print("\t1.Lock Free Crawlers")
     print("\t2.Implementation of locks using Semaphore mutex ")
     print("\t3.Implementation of locks using Monitors")
