@@ -1,19 +1,6 @@
-# import file_parser
 import textprint
-# import validators
-# import requests
 import os
 import argparse
-
-import sys
-# #main.py
-# absolutepath = os.path.abspath(__file__)
-
-#     #source code file
-# fileDirectory = os.path.dirname(absolutepath)
-# print(fileDirectory)
-# sys.path.insert(0, fileDirectory)
-
 from MultiThreadedCrawler import MultiThreadedCrawler
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--EXCEPTION_FILENAME'  , type=str)

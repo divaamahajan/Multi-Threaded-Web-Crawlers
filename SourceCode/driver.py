@@ -37,7 +37,7 @@ def validate_url(test_file):
         print(f'Input file exception caught : {e}')
         return
     
-    seed = '"' + seed_url_list[0:-2] + '"'
+    seed = seed_url_list[0:-2]
     print(f"\nValid Seed URLs : {seed}")
     # print(*seed_url_list, sep= '\n')
     return seed
