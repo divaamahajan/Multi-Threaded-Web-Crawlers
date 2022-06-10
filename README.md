@@ -42,7 +42,7 @@ for above output, execute `source /home/username/.serv-coder/bin/activate`
 1. Navigate to SourceCode directory in your terminal `~/code/TECHNIQUES-TO-IMPLEMENT-WEB-CRAWLERS-USING-MULTI-THREADING/SourceCode` 
 2. Execute `python3 driver.py`
 3. Please make sure to change the output log directory, if you change the set of seed URLs, for accurate results
-![setup screenshot](setup_startup\Setup Screenshot.png)
+![setup screenshot](setup_startup/Setup Screenshot.png)
 
 
 
