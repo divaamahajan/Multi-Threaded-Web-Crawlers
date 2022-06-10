@@ -2,7 +2,7 @@
 import textprint
 # import validators
 # import requests
-from multithreadedcrawler import MultiThreadedCrawler
+from .multithreadedcrawler import MultiThreadedCrawler
 import os
 import argparse
 
