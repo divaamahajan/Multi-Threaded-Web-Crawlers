@@ -87,7 +87,6 @@ def start_fastapiserver():
     uvicorn_path = os.path.join(os.path.expanduser('~'), ".serv-coder", "bin", "uvicorn")
     p = Popen([uvicorn_path, 'app.main:app'])
     # call webcrawler
-    print('crawler path ', parentDirectory)
     os.chdir(os.path.join(parentDirectory, "SourceCode"))
     return p, pypath
 
@@ -136,9 +135,7 @@ try:
                  "--metadata_rqd",
                  metadata_rqd
                  ]
-        print(*cmd, sep= '\n')
         subprocess.call(cmd)
-        print('subprocess called successfully')
         # python3 startcrawler.py   
         kill_fastapiserver(p)
         try:
@@ -173,9 +170,7 @@ try:
                         "--metadata_rqd",
                         metadata_rqd
                         ]
-                print(*cmd, sep= '\n')
                 subprocess.call(cmd)
-                print('subprocess called successfully')
                 kill_fastapiserver(p)
 except Exception as e:
     print(f'Error caught : {e} \nterminating...')
